@@ -1,9 +1,3 @@
-# s23wb96kalla
-[Hosted at](https://s23wb96kalla-b83y.onrender.com)
+# s23db96kalla
 
-Class: Pen
-
-Attributes:
-brand(String)
-price(number)
-color(String)
+[hosted at] (https://s23db96kalla.onrender.com)
