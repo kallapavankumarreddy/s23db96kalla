@@ -30,3 +30,16 @@ res.send('NOT IMPLEMENTED: pen delete DELETE ' + req.params.id);
 exports.pen_update_put = function(req, res) {
 res.send('NOT IMPLEMENTED: pen update PUT' + req.params.id);
 };
+
+// VIEWS
+// Handle a show all view
+exports.pen_view_all_Page = async function(req, res) {
+    try{
+    thepen = await pen.find();
+    res.render('pen', { title: 'pen Search Results', results: thepen });
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    }
+    };
