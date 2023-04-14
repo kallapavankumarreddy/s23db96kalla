@@ -17,9 +17,21 @@ res.send('NOT IMPLEMENTED: pen list');
 // Handle pen create on POST.
 
 // for a specific pen.
-exports.pen_detail = function(req, res) {
+/*exports.pen_detail = function(req, res) {
 res.send('NOT IMPLEMENTED: pen detail: ' + req.params.id);
+};*/
+// for a specific pen.
+exports.pen_detail = async function(req, res) {
+console.log("detail" + req.params.id)
+try {
+result = await pen.findById( req.params.id)
+res.send(result)
+} catch (error) {
+res.status(500)
+res.send(`{"error": document for id ${req.params.id} not found`);
+}
 };
+
 // Handle pen create on POST.
 exports.pen_create_post = async function(req, res) {
 // res.send('NOT IMPLEMENTED: pen create POST');
@@ -46,10 +58,30 @@ exports.pen_delete = function(req, res) {
 res.send('NOT IMPLEMENTED: pen delete DELETE ' + req.params.id);
 };
 // Handle pen update form on PUT.
-exports.pen_update_put = function(req, res) {
+/*exports.pen_update_put = function(req, res) {
 res.send('NOT IMPLEMENTED: pen update PUT' + req.params.id);
 };
-
+*/
+// Handle pen update form on PUT.
+exports.pen_update_put = async function(req, res) {
+console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+try {
+let toUpdate = await pen.findById( req.params.id)
+// Do updates of properties
+if(req.body.brand)
+toUpdate.brand = req.body.brand;
+if(req.body.price) toUpdate.price = req.body.price;
+if(req.body.color) toUpdate.color = req.body.color;
+let result = await toUpdate.save();
+console.log("Sucess " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+}
+};
 // VIEWS
 // Handle a show all view
 exports.pen_view_all_Page = async function(req, res) {
