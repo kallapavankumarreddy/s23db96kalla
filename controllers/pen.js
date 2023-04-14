@@ -14,13 +14,32 @@ exports.pen_list = async function(req, res) {
 /*exports.pen_list = function(req, res) {
 res.send('NOT IMPLEMENTED: pen list');
 };*/
+// Handle pen create on POST.
+
 // for a specific pen.
 exports.pen_detail = function(req, res) {
 res.send('NOT IMPLEMENTED: pen detail: ' + req.params.id);
 };
 // Handle pen create on POST.
-exports.pen_create_post = function(req, res) {
-res.send('NOT IMPLEMENTED: pen create POST');
+exports.pen_create_post = async function(req, res) {
+// res.send('NOT IMPLEMENTED: pen create POST');
+console.log(req.body)
+    let document = new pen();
+    // We are looking for a body, since POST does not have query parameters.
+    // Even though bodies can be in many different formats, we will be picky
+    // and require that it be a json object
+    // {"pen_type":"goat", "cost":12, "size":"large"}
+    document.brand = req.body.brand;
+    document.price = req.body.price;
+    document.color = req.body.color;
+    try{
+    let result = await document.save();
+    res.send(result);
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    }
 };
 // Handle pen delete form on DELETE.
 exports.pen_delete = function(req, res) {
