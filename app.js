@@ -4,11 +4,28 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+{useNewUrlParser: true,
+useUnifiedTopology: true});
+
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
+
 var indexRouter = require('./routes/index');
+var pen = require("./models/pen");
 var usersRouter = require('./routes/users');
 var penRouter = require('./routes/pen');
 var boardRouter = require('./routes/board');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
 
 var app = express();
 
@@ -27,6 +44,33 @@ app.use('/users', usersRouter);
 app.use('/pen', penRouter);
 app.use('/board', boardRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
+
+// We can seed the collection if needed on server start
+async function recreateDB(){
+// Delete everything
+await pen.deleteMany();
+let instance1 = new pen({brand:"techno tip",price:10,color:"blue"});
+instance1.save().then(doc=>{
+console.log("First object saved")}
+).catch(err=>{
+console.error(err)
+});
+let instance2 = new pen({brand:"cello",price:05,color:"red"});
+instance2.save().then(doc=>{
+console.log("Second object saved")}
+).catch(err=>{
+console.error(err)
+});
+let instance3 = new pen({brand:"reynols",price:15,color:"green"});
+instance3.save().then(doc=>{
+console.log("Third object saved")}
+).catch(err=>{
+console.error(err)
+});
+}
+let reseed = true;
+if (reseed) {recreateDB();}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
