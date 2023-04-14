@@ -1,8 +1,19 @@
 var pen = require('../models/pen');
 // List of all pen
-exports.pen_list = function(req, res) {
+// List of all pen
+exports.pen_list = async function(req, res) {
+    try{
+    thepen = await pen.find();
+    res.send(thepen);
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    }
+    };
+/*exports.pen_list = function(req, res) {
 res.send('NOT IMPLEMENTED: pen list');
-};
+};*/
 // for a specific pen.
 exports.pen_detail = function(req, res) {
 res.send('NOT IMPLEMENTED: pen detail: ' + req.params.id);
