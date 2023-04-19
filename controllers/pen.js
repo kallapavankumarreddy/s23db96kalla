@@ -54,9 +54,22 @@ console.log(req.body)
     }
 };
 // Handle pen delete form on DELETE.
-exports.pen_delete = function(req, res) {
-res.send('NOT IMPLEMENTED: pen delete DELETE ' + req.params.id);
-};
+//exports.pen_delete = function(req, res) {
+//res.send('NOT IMPLEMENTED: pen delete DELETE ' + req.params.id);
+//};
+// Handle pen delete on DELETE.
+exports.pen_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await pen.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    };
+    
 // Handle pen update form on PUT.
 /*exports.pen_update_put = function(req, res) {
 res.send('NOT IMPLEMENTED: pen update PUT' + req.params.id);
@@ -92,5 +105,19 @@ exports.pen_view_all_Page = async function(req, res) {
     catch(err){
     res.status(500);
     res.send(`{"error": ${err}}`);
+    }
+    };
+
+    // Handle a show one view with id specified by query
+exports.pen_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await pen.findById( req.query.id)
+    res.render('pendetail',
+    { title: 'pen Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
     }
     };
