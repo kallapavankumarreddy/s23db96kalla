@@ -1,0 +1,32 @@
+extends layout
+block content
+ h1= title
+ form(id='penForm', action="/resource/pen", method="POST")
+  div.form-group
+    label.penAttr(for='brand') pen brand
+    input#pen_type(type='String', name='brand')
+  div.form-group
+    label.penAttr(for='price') pen price
+    input#size(type='number', name='price')
+  div.form-group
+    label.penAttr(for='color') pen color
+    input#cost(type='String', name='color')
+  input(type="submit")
+ script.
+  document.forms['penForm'].addEventListener('submit', (event) => {
+   event.preventDefault();
+   // TODO do something here to show user that form is being submitted
+   fetch(event.target.action, {
+    method: 'POST',
+    body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+   }).then((resp) => {
+    return resp.json(); // or resp.text() or whatever the server sends
+   }).then((body) => {
+    alert("Save succeded")
+    // TODO handle body
+   }).catch((error) => {
+    // TODO handle error
+    alert("Save failed " + error )
+   });
+  });
+
