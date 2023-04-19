@@ -1,13 +1,14 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 24px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #ff0000;
 }
 
 .penAttr {
-  background-color: aquamarine;
+  background-color: rgb(191, 255, 127);
   width: 120px;
   }
